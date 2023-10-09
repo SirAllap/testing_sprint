@@ -5,21 +5,56 @@ class Room {
         this.rate = rate
         this.discount = discount
     }
-
     isOccupied(date) {
-        return this.bookings.some(booking => booking.date === date)
-    }
+        const myDate = new Date(date)
 
-    occupancyPercentage(startDate, endDate) {
-        const convert = date => new Date(date).getTime()
-        const oneDayInMillisecs = 24 * 60 * 60 * 1000
-        const nightCount = (convert(endDate) - convert(startDate)) / oneDayInMillisecs
-        if (convert(startDate) <= convert(this.bookings[0].date) && convert(endDate) >= convert(this.bookings[this.bookings.length - 1].date)) {
-            return Math.ceil((this.bookings.length * 100) / nightCount)
-        } else {
-            throw new Error('Date range is outside the booking range.')
+        for (let i = 0;i < this.bookings.length;i++) {
+            const startDate = new Date(this.bookings[i].checkIn)
+            const endDate = new Date(this.bookings[i].checkOut)
+
+            if (myDate >= startDate && myDate <= endDate) {
+                return true
+            }
         }
+        return false
+    }
+    occupancyPercentage(startingDate, endingDate) {
+        const startDate = new Date(startingDate)
+        const endDate = new Date(endingDate)
+
+        const totalDaysInrange = (endDate - startDate) / (24 * 60 * 60 * 1000) + 1
+
+        let occupiedDays = 0
+        for (let i = startDate;i <= endDate;i.setDate(i.getDate() + 1)) {
+            if (this.isOccupied(i)) {
+                occupiedDays++
+            }
+        }
+        const percentage = (occupiedDays / totalDaysInrange) * 100
+        return parseFloat(percentage.toFixed(1))
+    }
+    static totalOccupancyPercentage(rooms, startDate, endDate) {
+        let allPercentages = 0
+        rooms.forEach((room) => {
+            allPercentages += room.occupancyPercentage(startDate, endDate)
+        })
+        const totalPercentage = allPercentages / rooms.length
+        return totalPercentage
     }
 }
 
-module.exports = Room
+class Booking {
+    constructor(name, email, checkIn, checkOut, discount, room) {
+        this.name = name
+        this.email = email
+        this.checkIn = checkIn
+        this.checkOut = checkOut
+        this.discount = discount
+        this.room = room
+    }
+}
+
+module.exports = {
+    Room,
+    Booking
+}
