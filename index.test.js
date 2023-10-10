@@ -548,3 +548,71 @@ describe('Testing class Room', () => {
         expect(arrayEmptyRooms).toBe('No available room within the given range')
     })
 })
+
+describe('Testing class Booking', () => {
+    test('getFee: returns the fee with 10% discount from the room', () => {
+        const deluxeRoom = new Room({
+            name: 'Deluxe-Room',
+            rate: 790,
+            discount: 10,
+        })
+        const deluxeBooking = new Booking({
+            name: 'David PR',
+            email: 'david.pr.developer@gmail.com',
+            checkIn: '2023-10-10',
+            checkOut: '2023-10-11',
+            discount: 0,
+            room: deluxeRoom,
+        })
+        expect(deluxeBooking.getFee()).toBe(711)
+    })
+    test('getFee: returns the fee with 10% discount from the booking', () => {
+        const deluxeRoom = new Room({
+            name: 'Deluxe-Room',
+            rate: 790,
+            discount: 0,
+        })
+        const deluxeBooking = new Booking({
+            name: 'David PR',
+            email: 'david.pr.developer@gmail.com',
+            checkIn: '2023-10-10',
+            checkOut: '2023-10-11',
+            discount: 20,
+            room: deluxeRoom,
+        })
+        expect(deluxeBooking.getFee()).toBe(632)
+    })
+    test('getFee: returns the fee with 10% discount from the room + 5% from the booking', () => {
+        const deluxeRoom = new Room({
+            name: 'Deluxe-Room',
+            rate: 790,
+            discount: 10,
+        })
+        const deluxeBooking = new Booking({
+            name: 'David PR',
+            email: 'david.pr.developer@gmail.com',
+            checkIn: '2023-10-10',
+            checkOut: '2023-10-11',
+            discount: 5,
+            room: deluxeRoom,
+        })
+        expect(deluxeBooking.getFee()).toBe(671.5)
+    })
+    test('getFee: returns `No discount available to be applied` if there is not discounts to be applied', () => {
+        const deluxeRoom = new Room({
+            name: 'Deluxe-Room',
+            rate: 790,
+            discount: 0,
+        })
+        const deluxeBooking = new Booking({
+            name: 'David PR',
+            email: 'david.pr.developer@gmail.com',
+            checkIn: '2023-10-10',
+            checkOut: '2023-10-11',
+            discount: 0,
+            room: deluxeRoom,
+        })
+        expect(deluxeBooking.getFee()).toBe('No discount available to be applied')
+    })
+
+})

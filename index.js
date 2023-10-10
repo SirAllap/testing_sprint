@@ -120,6 +120,19 @@ class Booking {
         this.discount = discount
         this.room = room
     }
+    getFee = () => {
+        const currentPrice = this.name.room.name.rate
+        const currentRoomDiscount = this.name.room.name.discount
+        const currentBookingDiscount = this.name.discount
+        let priceWithDiscount = 0
+        if (currentRoomDiscount !== 0 && currentBookingDiscount !== 0) {
+            return priceWithDiscount = currentPrice - (currentPrice * (currentBookingDiscount + currentRoomDiscount) / 100)
+        } else if (currentRoomDiscount !== 0) {
+            return priceWithDiscount = currentPrice - (currentPrice * currentRoomDiscount / 100)
+        } else if (currentBookingDiscount !== 0) {
+            return priceWithDiscount = currentPrice - (currentPrice * currentBookingDiscount / 100)
+        } else return 'No discount available to be applied'
+    }
 }
 
 module.exports = {
