@@ -22,7 +22,13 @@ class Room {
         const startDate = new Date(startingDate)
         const endDate = new Date(endingDate)
 
-        const totalDaysInrange = (endDate - startDate) / (24 * 60 * 60 * 1000) + 1
+        let sumOneDay = 0
+        const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
+        if (daysInMonth(startDate.getFullYear(), startDate.getMonth() + 1) === 31) {
+            sumOneDay = 1
+        }
+
+        const totalDaysInrange = (endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000) + 1 + sumOneDay
 
         let occupiedDays = 0
         for (let i = startDate;i <= endDate;i.setDate(i.getDate() + 1)) {
@@ -33,14 +39,32 @@ class Room {
         const percentage = (occupiedDays / totalDaysInrange) * 100
         return parseFloat(percentage.toFixed(1))
     }
-    static totalOccupancyPercentage(rooms, startDate, endDate) {
-        let allPercentages = 0
-        rooms.forEach((room) => {
-            allPercentages += room.occupancyPercentage(startDate, endDate)
-        })
-        const totalPercentage = allPercentages / rooms.length
-        return totalPercentage
-    }
+    // static totalOccupancyPercentage(rooms, startDate, endDate) {
+
+    //     if (!Array.isArray(rooms) || rooms.every((room) => !(room instanceof Room))) {
+    //         return 0
+    //     }
+
+    //     function countDays(startDate, endDate) {
+    //         const oneDay = 24 * 60 * 60 * 1000
+    //         return Math.round(Math.abs((startDate - endDate) / oneDay)) + 1
+    //     }
+
+    //     let totalOccupiedDays = 0
+    //     let totalDaysInRange = countDays(new Date(startDate), new Date(endDate))
+
+    //     if (totalDaysInRange === 0) {
+    //         return 0
+    //     }
+
+    //     rooms.forEach((room) => {
+    //         totalOccupiedDays += room.occupancyPercentage(startDate, endDate)
+    //     })
+
+    //     const percentage = (totalOccupiedDays / rooms.length).toFixed(1)
+
+    //     return parseFloat(percentage)
+    // }
 }
 
 class Booking {
