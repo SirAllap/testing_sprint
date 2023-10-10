@@ -1,3 +1,15 @@
+function checkRange(startDate, endDate) {
+    const startdate = new Date(startDate)
+    const enddate = new Date(endDate)
+    const fulldays = []
+
+    for (let date = startdate;date < enddate;date.setDate(date.getDate() + 1)) {
+        fulldays.push(new Date(date))
+    }
+
+    return fulldays
+}
+
 class Room {
     constructor(name, bookings, rate, discount) {
         this.name = name
@@ -29,11 +41,11 @@ class Room {
 
         let sumOneDay = 0
         const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
-        if (daysInMonth(startDate.getFullYear(), startDate.getMonth() + 1) === 31) {
+        if (daysInMonth(startDate.getFullYear(), startDate.getMonth() + 1) !== 31) {
             sumOneDay = 1
         }
 
-        const totalDaysInrange = (endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000) + 1 + sumOneDay
+        const totalDaysInrange = (endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000) + sumOneDay
 
         let occupiedDays = 0
         for (let i = startDate;i <= endDate;i.setDate(i.getDate() + 1)) {
@@ -48,7 +60,7 @@ class Room {
     static totalOccupancyPercentage = (rooms, startDate, endDate) => {
 
         if (!Array.isArray(rooms) || rooms.every((room) => !(room instanceof Room))) {
-            return 0
+            return 'Invalid date'
         }
 
         function countDays(startDate, endDate) {
@@ -73,8 +85,30 @@ class Room {
     }
 
     static availableRooms = (rooms, startDate, endDate) => {
+        const range = checkRange(startDate, endDate)
+        let emptyRoomsArr = []
 
+        rooms.forEach(room => {
+            let isRoomEmpty = true
+
+            range.forEach(day => {
+                if (room.isOccupied(day)) {
+                    isRoomEmpty = false
+                }
+            })
+
+            if (isRoomEmpty) {
+                emptyRoomsArr.push(room.name)
+            }
+        })
+
+        if (emptyRoomsArr.length > 0) {
+            return emptyRoomsArr
+        } else {
+            return 'No available room within the given range'
+        }
     }
+
 }
 
 class Booking {
