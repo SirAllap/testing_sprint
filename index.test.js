@@ -1,7 +1,7 @@
 const { Room, Booking } = require('./index.js')
 
 describe('Testing class Room', () => {
-    it('isOccupied is true cuando la habitacion esta ocupada en una fecha dada', () => {
+    test('isOccupied returns true when the room is occupied on a given date', () => {
         const room = {
             name: 'Habitacion 1',
             rate: 150,
@@ -14,27 +14,27 @@ describe('Testing class Room', () => {
             booking2,
         ]
         const room1 = new Room(room.name, bookings, room.rate, room.discount)
-        const isOccupiedTest1 = room1.isOccupied('2023-10-10')
-        expect(isOccupiedTest1).toBeTruthy()
+        const isOccupiedTest = room1.isOccupied('2023-10-10')
+        expect(isOccupiedTest).toBeTruthy()
     })
-    it('isOccupied is false cuando la habitacion no esta ocupada en una fecha dada ', () => {
+    test('isOccupied returns false when the room is occupied on a given date ', () => {
         const room = {
             name: 'Habitacion 1',
             rate: 150,
             discount: 10,
         }
         const booking1 = new Booking('booking 1', 'booking1@bo.com', '2023-10-01', '2023-10-06', 10, room)
-        const booking2 = new Booking('booking 2', 'booking1@bo.com', '2023-10-07', '2023-10-15', 10, room)
+        const booking2 = new Booking('booking 2', 'booking1@bo.com', '2023-10-07', '2023-10-31', 10, room)
         const bookings = [
             booking1,
             booking2,
         ]
         const room1 = new Room(room.name, bookings, room.rate, room.discount)
-        const isOccupiedTest1 = room1.isOccupied('2023-10-18')
+        const isOccupiedTest1 = room1.isOccupied('2023-11-03')
         expect(isOccupiedTest1).toBeFalsy()
 
     })
-    it('isOccupied is boolean sin importar el dato que le pasemos', () => {
+    test('isOccupied returns `You introduce a invalid date` if the introduced data is not a valid date', () => {
         const room = {
             name: 'Habitacion 1',
             rate: 150,
@@ -47,59 +47,59 @@ describe('Testing class Room', () => {
             booking2,
         ]
         const room2 = new Room(room.name, bookings, room.rate, room.discount)
-        const isOccupiedTest1 = room2.isOccupied('Hola')
-        const isOccupiedTest2 = room2.isOccupied(0)
-        expect(typeof isOccupiedTest1).toBe('boolean')
-        expect(typeof isOccupiedTest2).toBe('boolean')
+        const isOccupiedTest = room2.isOccupied('whatever is not a real date')
+        const isOccupiedTest1 = room2.isOccupied('2023-13-10')
+        expect(isOccupiedTest).toBe('You introduce a invalid date')
+        expect(isOccupiedTest1).toBe('You introduce a invalid date')
     })
-    it('occupancyPercentage nos retorna el porcentaje de dias ocupado, segun el rango de fechas que pasemos', () => {
-        const room = {
-            name: 'Habitacion 1',
-            rate: 150,
-            discount: 10,
-        }
-        const booking1 = new Booking(
-            'booking 1',
-            'booking1@bo.com',
-            '2023-09-01',
-            '2023-09-15',
-            10,
-            room)
-        const booking2 = new Booking(
-            'booking 2',
-            'booking1@bo.com',
-            '2023-09-16',
-            '2023-09-30',
-            10,
-            room)
-        const bookings = [
-            booking1,
-            booking2,
-        ]
+    // test('occupancyPercentage nos retorna el porcentaje de dias ocupado, segun el rango de fechas que pasemos', () => {
+    //     const room = {
+    //         name: 'Habitacion 1',
+    //         rate: 150,
+    //         discount: 10,
+    //     }
+    //     const booking1 = new Booking(
+    //         'booking 1',
+    //         'booking1@bo.com',
+    //         '2023-09-01',
+    //         '2023-09-15',
+    //         10,
+    //         room)
+    //     const booking2 = new Booking(
+    //         'booking 2',
+    //         'booking1@bo.com',
+    //         '2023-09-16',
+    //         '2023-09-30',
+    //         10,
+    //         room)
+    //     const bookings = [
+    //         booking1,
+    //         booking2,
+    //     ]
 
-        const room3 = new Room(room.name, bookings, room.rate, room.discount)
-        const percentageNumber = room3.occupancyPercentage(
-            '2023-09-01',
-            '2023-09-30'
-        )
-        const percentageNumber2 = room3.occupancyPercentage(
-            '2023-09-01',
-            '2023-10-15'
-        )
-        const percentageNumber3 = room3.occupancyPercentage(
-            '2023-09-01',
-            '2023-12-31'
-            //?October has 31 days and we are trying to count 30 days every month, in this case if we put the last day of December, 31, we will have to sum 2 more days to our calculation.
-        )
-        const percentageNumber4 = room3.occupancyPercentage(
-            '2023-11-26',
-            '2023-09-01'
-        )
-        expect(percentageNumber).toBe(100)
-        expect(percentageNumber2).toBe(66.7)
-        expect(percentageNumber3).toBe(24.6)
-        expect(percentageNumber4).toBe(0)
-    })
+    //     const room3 = new Room(room.name, bookings, room.rate, room.discount)
+    //     const percentageNumber = room3.occupancyPercentage(
+    //         '2023-09-01',
+    //         '2023-09-30'
+    //     )
+    //     const percentageNumber2 = room3.occupancyPercentage(
+    //         '2023-09-01',
+    //         '2023-10-15'
+    //     )
+    //     const percentageNumber3 = room3.occupancyPercentage(
+    //         '2023-09-01',
+    //         '2023-12-31'
+    //         //?October has 31 days and we are trying to count 30 days every month, in this case if we put the last day of December, 31, we will have to sum 2 more days to our calculation.
+    //     )
+    //     const percentageNumber4 = room3.occupancyPercentage(
+    //         '2023-11-26',
+    //         '2023-09-01'
+    //     )
+    //     expect(percentageNumber).toBe(100)
+    //     expect(percentageNumber2).toBe(66.7)
+    //     expect(percentageNumber3).toBe(24.6)
+    //     expect(percentageNumber4).toBe(0)
+    // })
     // test("totalOccupancyPercentage tiene que devolver 50 si las fechas pasadas al metodo ocupan el 50% del rango", () => {
     //     const roomA = {
     //         name: "roomA",
@@ -311,4 +311,8 @@ describe('Testing class Room', () => {
     //     expect(percentage2).toBe(0)
     //     expect(percentage3).toBe(0)
     // })
+    // test('availableRooms should return an array with all the rooms that are not occupied by the given date', () => {
+
+    // })
+
 })

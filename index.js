@@ -5,20 +5,25 @@ class Room {
         this.rate = rate
         this.discount = discount
     }
-    isOccupied(date) {
+
+    isOccupied = date => {
         const myDate = new Date(date)
+        if (myDate instanceof Date && !isNaN(myDate)) {
+            for (let i = 0;i < this.bookings.length;i++) {
+                const startDate = new Date(this.bookings[i].checkIn)
+                const endDate = new Date(this.bookings[i].checkOut)
 
-        for (let i = 0;i < this.bookings.length;i++) {
-            const startDate = new Date(this.bookings[i].checkIn)
-            const endDate = new Date(this.bookings[i].checkOut)
-
-            if (myDate >= startDate && myDate <= endDate) {
-                return true
+                if (myDate >= startDate && myDate <= endDate) {
+                    return true
+                }
             }
+            return false
         }
-        return false
+        return 'You introduce a invalid date'
+        throw new console.error('You introduce a invalid date')
     }
-    occupancyPercentage(startingDate, endingDate) {
+
+    occupancyPercentage = (startingDate, endingDate) => {
         const startDate = new Date(startingDate)
         const endDate = new Date(endingDate)
 
@@ -39,32 +44,37 @@ class Room {
         const percentage = (occupiedDays / totalDaysInrange) * 100
         return parseFloat(percentage.toFixed(1))
     }
-    // static totalOccupancyPercentage(rooms, startDate, endDate) {
 
-    //     if (!Array.isArray(rooms) || rooms.every((room) => !(room instanceof Room))) {
-    //         return 0
-    //     }
+    static totalOccupancyPercentage = (rooms, startDate, endDate) => {
 
-    //     function countDays(startDate, endDate) {
-    //         const oneDay = 24 * 60 * 60 * 1000
-    //         return Math.round(Math.abs((startDate - endDate) / oneDay)) + 1
-    //     }
+        if (!Array.isArray(rooms) || rooms.every((room) => !(room instanceof Room))) {
+            return 0
+        }
 
-    //     let totalOccupiedDays = 0
-    //     let totalDaysInRange = countDays(new Date(startDate), new Date(endDate))
+        function countDays(startDate, endDate) {
+            const oneDay = 24 * 60 * 60 * 1000
+            return Math.round(Math.abs((startDate - endDate) / oneDay)) + 1
+        }
 
-    //     if (totalDaysInRange === 0) {
-    //         return 0
-    //     }
+        let totalOccupiedDays = 0
+        let totalDaysInRange = countDays(new Date(startDate), new Date(endDate))
 
-    //     rooms.forEach((room) => {
-    //         totalOccupiedDays += room.occupancyPercentage(startDate, endDate)
-    //     })
+        if (totalDaysInRange === 0) {
+            return 0
+        }
 
-    //     const percentage = (totalOccupiedDays / rooms.length).toFixed(1)
+        rooms.forEach((room) => {
+            totalOccupiedDays += room.occupancyPercentage(startDate, endDate)
+        })
 
-    //     return parseFloat(percentage)
-    // }
+        const percentage = (totalOccupiedDays / rooms.length).toFixed(1)
+
+        return parseFloat(percentage)
+    }
+
+    static availableRooms = (rooms, startDate, endDate) => {
+
+    }
 }
 
 class Booking {
