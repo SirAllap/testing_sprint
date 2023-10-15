@@ -1,4 +1,4 @@
-const { Room, Booking } = require('./index.js')
+const { Room, Booking } = require('./dist/index.js')
 
 describe('Testing class Room', () => {
     test('isOccupied: returns true when the room is occupied on a given date', () => {
