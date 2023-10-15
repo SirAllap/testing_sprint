@@ -3,7 +3,7 @@ const { Room, Booking } = require('./index.js')
 describe('Testing class Room', () => {
     test('isOccupied: returns true when the room is occupied on a given date', () => {
         const room = {
-            name: 'Habitacion 1',
+            name: 'Room: 1',
             rate: 150,
             discount: 10,
         }
@@ -30,7 +30,7 @@ describe('Testing class Room', () => {
     })
     test('isOccupied: returns false when the room is occupied on a given date ', () => {
         const room = {
-            name: 'Habitacion 1',
+            name: 'Room: 1',
             rate: 150,
             discount: 10,
         }
@@ -57,7 +57,7 @@ describe('Testing class Room', () => {
     })
     test('isOccupied: returns `You introduce a invalid date` if the introduced data is not a valid date', () => {
         const room = {
-            name: 'Habitacion 1',
+            name: 'Room: 1',
             rate: 150,
             discount: 10,
         }
@@ -79,14 +79,11 @@ describe('Testing class Room', () => {
         )
         const bookings = [booking1, booking2]
         const room2 = new Room(room.name, bookings, room.rate, room.discount)
-        const isOccupiedTest = room2.isOccupied('whatever is not a real date')
-        const isOccupiedTest1 = room2.isOccupied('2023-13-10')
-        expect(isOccupiedTest).toBe('You introduce a invalid date')
-        expect(isOccupiedTest1).toBe('You introduce a invalid date')
+        expect(() => { room2.isOccupied('whatever is not a real date') }).toThrow('You introduce a invalid date')
     })
     test('occupancyPercentage: returns the percentage of days occupied based on the date range we provide', () => {
         const room = {
-            name: 'Habitacion 1',
+            name: 'Room: 1',
             rate: 150,
             discount: 10,
         }
@@ -160,7 +157,7 @@ describe('Testing class Room', () => {
     })
     test('totalOccupancyPercentage: returns 50 if the dates passed occupy 50% of the range', () => {
         const roomA = {
-            name: 'roomA',
+            name: 'Room: 2',
             rate: 150,
             discount: 10,
         }
@@ -186,7 +183,7 @@ describe('Testing class Room', () => {
         const bookingsA = [booking1, booking2]
 
         const roomB = {
-            name: 'roomB',
+            name: 'Room: 3',
             rate: 150,
             discount: 10,
         }
@@ -236,7 +233,7 @@ describe('Testing class Room', () => {
     })
     test('totalOccupancyPercentage: returns 100 if the dates passed occupy 100% of the range', () => {
         const roomA = {
-            name: 'roomA',
+            name: 'Room: 2',
             rate: 150,
             discount: 10,
         }
@@ -262,7 +259,7 @@ describe('Testing class Room', () => {
         const bookingsA = [booking1, booking2]
 
         const roomB = {
-            name: 'roomB',
+            name: 'Room: 3',
             rate: 150,
             discount: 10,
         }
@@ -312,7 +309,7 @@ describe('Testing class Room', () => {
     })
     test('totalOccupancyPercentage: returns 0 if the dates passed occupy 0% of the range', () => {
         const roomA = {
-            name: 'roomA',
+            name: 'Room: 2',
             rate: 150,
             discount: 10,
         }
@@ -338,7 +335,7 @@ describe('Testing class Room', () => {
         const bookingsA = [booking1, booking2]
 
         const roomB = {
-            name: 'roomB',
+            name: 'Room: 3',
             rate: 150,
             discount: 10,
         }
@@ -413,7 +410,7 @@ describe('Testing class Room', () => {
     })
     test('availableRooms:returns an array with all the rooms that are not occupied by the given date', () => {
         const roomA = {
-            name: 'roomA',
+            name: 'Room: 2',
             rate: 150,
             discount: 10,
         }
@@ -436,7 +433,7 @@ describe('Testing class Room', () => {
         const bookingsA = [booking1, booking2]
 
         const roomB = {
-            name: 'roomB',
+            name: 'Room: 3',
             rate: 150,
             discount: 10,
         }
@@ -459,7 +456,7 @@ describe('Testing class Room', () => {
         const bookingsB = [booking3, booking4]
 
         const roomC = {
-            name: 'roomC',
+            name: 'Room: 4',
             rate: 150,
             discount: 10,
         }
@@ -481,36 +478,36 @@ describe('Testing class Room', () => {
         )
         const bookingsC = [booking5, booking6]
 
-        const room1 = new Room(
+        const room2 = new Room(
             roomA.name,
             bookingsA,
             roomA.rate,
             roomA.discount
         )
-        const room2 = new Room(
+        const room3 = new Room(
             roomB.name,
             bookingsB,
             roomB.rate,
             roomB.discount
         )
-        const room3 = new Room(
+        const room4 = new Room(
             roomC.name,
             bookingsC,
             roomC.rate,
             roomC.discount
         )
-        const roomArray = [room1, room2, room3]
+        const roomArray = [room2, room3, room4]
         const arrayEmptyRooms = Room.availableRooms(
             roomArray,
             '2023-10-01',
             '2023-10-15'
         )
 
-        expect(arrayEmptyRooms).toEqual(['roomA', 'roomB', 'roomC'])
+        expect(arrayEmptyRooms).toEqual(['Room: 2', 'Room: 3', 'Room: 4'])
     })
     test('availableRooms: returns `No available room within the given range` if the rooms are occupied during the provided date range.', () => {
         const roomA = {
-            name: 'roomA',
+            name: 'Room: 2',
             rate: 150,
             discount: 10,
         }

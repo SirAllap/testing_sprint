@@ -24,15 +24,13 @@ class Room {
             for (let i = 0;i < this.bookings.length;i++) {
                 const startDate = new Date(this.bookings[i].checkIn)
                 const endDate = new Date(this.bookings[i].checkOut)
-
                 if (myDate >= startDate && myDate <= endDate) {
                     return true
                 }
             }
             return false
         }
-        return 'You introduce a invalid date'
-        throw new console.error('You introduce a invalid date')
+        throw 'You introduce a invalid date'
     }
 
     occupancyPercentage = (startingDate, endingDate) => {
