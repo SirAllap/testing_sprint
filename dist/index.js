@@ -85,25 +85,27 @@ Room.availableRooms = (rooms, startDate, endDate) => {
 class Booking {
     constructor(name, email, checkIn, checkOut, discount, room) {
         this.getFee = () => {
-            if (this.room.length === 0) {
-                return 'No room available for booking';
+            const currentPrice = this.room.rate;
+            const currentRoomDiscount = this.room.discount;
+            const currentBookingDiscount = this.discount;
+            let priceWithDiscount = 0;
+            if (currentRoomDiscount !== 0 && currentBookingDiscount !== 0) {
+                return (priceWithDiscount =
+                    currentPrice -
+                        (currentPrice *
+                            (currentBookingDiscount + currentRoomDiscount)) /
+                            100);
             }
-            let totalFee = 0;
-            for (const room of this.room) {
-                const currentPrice = room.rate;
-                const currentRoomDiscount = room.discount;
-                const currentBookingDiscount = this.discount;
-                let priceWithDiscount = currentPrice;
-                if (currentRoomDiscount !== 0) {
-                    priceWithDiscount -= (currentPrice * currentRoomDiscount) / 100;
-                }
-                if (currentBookingDiscount !== 0) {
-                    priceWithDiscount -=
-                        (currentPrice * currentBookingDiscount) / 100;
-                }
-                totalFee += priceWithDiscount;
+            else if (currentRoomDiscount !== 0) {
+                return (priceWithDiscount =
+                    currentPrice - (currentPrice * currentRoomDiscount) / 100);
             }
-            return totalFee;
+            else if (currentBookingDiscount !== 0) {
+                return (priceWithDiscount =
+                    currentPrice - (currentPrice * currentBookingDiscount) / 100);
+            }
+            else
+                return 'No discount available to be applied';
         };
         this.name = name;
         this.email = email;
