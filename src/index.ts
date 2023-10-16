@@ -1,24 +1,19 @@
-type Bookings = {
-	checkIn: string
-	checkOut: string
-}
-
 interface InterfaceRoom {
 	name: string
-	bookings: Bookings[]
+	bookings: Booking[]
 	rate: number
 	discount: number
 }
 
 class Room implements InterfaceRoom {
 	name: string
-	bookings: Bookings[]
+	bookings: Booking[]
 	rate: number
 	discount: number
 
 	constructor(
 		name: string,
-		bookings: Bookings[],
+		bookings: Booking[],
 		rate: number,
 		discount: number
 	) {
@@ -175,22 +170,20 @@ class Booking {
 		this.room = room
 	}
 	getFee = () => {
-		const currentPrice: number = this.room.rate
-		const currentRoomDiscount: number = this.room.discount
-		const currentBookingDiscount: number = this.discount
-		let priceWithDiscount: number = 0
+		const currentPrice = this.room.rate
+		const currentRoomDiscount = this.room.discount
+		const currentBookingDiscount = this.discount
 		if (currentRoomDiscount !== 0 && currentBookingDiscount !== 0) {
-			return (priceWithDiscount =
+			return (
 				currentPrice -
 				(currentPrice *
 					(currentBookingDiscount + currentRoomDiscount)) /
-					100)
+					100
+			)
 		} else if (currentRoomDiscount !== 0) {
-			return (priceWithDiscount =
-				currentPrice - (currentPrice * currentRoomDiscount) / 100)
+			return currentPrice - (currentPrice * currentRoomDiscount) / 100
 		} else if (currentBookingDiscount !== 0) {
-			return (priceWithDiscount =
-				currentPrice - (currentPrice * currentBookingDiscount) / 100)
+			return currentPrice - (currentPrice * currentBookingDiscount) / 100
 		} else return 'No discount available to be applied'
 	}
 }
