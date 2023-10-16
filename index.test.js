@@ -548,68 +548,70 @@ describe('Testing class Room', () => {
 
 describe('Testing class Booking', () => {
     test('getFee: returns the fee with 10% discount from the room', () => {
-        const deluxeRoom = new Room({
+        const deluxeRoom = {
             name: 'Deluxe-Room',
             rate: 790,
             discount: 10,
-        })
-        const deluxeBooking = new Booking({
-            name: 'David PR',
-            email: 'david.pr.developer@gmail.com',
-            checkIn: '2023-10-10',
-            checkOut: '2023-10-11',
-            discount: 0,
-            room: deluxeRoom,
-        })
+        }
+        const deluxeBooking = new Booking(
+            'David PR',
+            'david.pr.developer@gmail.com',
+            '2023-10-10',
+            '2023-10-11',
+            0,
+            deluxeRoom
+        )
         expect(deluxeBooking.getFee()).toBe(711)
     })
+
     test('getFee: returns the fee with 10% discount from the booking', () => {
-        const deluxeRoom = new Room({
+        const deluxeRoom = {
             name: 'Deluxe-Room',
             rate: 790,
             discount: 0,
-        })
-        const deluxeBooking = new Booking({
-            name: 'David PR',
-            email: 'david.pr.developer@gmail.com',
-            checkIn: '2023-10-10',
-            checkOut: '2023-10-11',
-            discount: 20,
-            room: deluxeRoom,
-        })
+        }
+        const deluxeBooking = new Booking(
+            'David PR',
+            'david.pr.developer@gmail.com',
+            '2023-10-10',
+            '2023-10-11',
+            20,
+            deluxeRoom
+        )
         expect(deluxeBooking.getFee()).toBe(632)
     })
+
     test('getFee: returns the fee with 10% discount from the room + 5% from the booking', () => {
-        const deluxeRoom = new Room({
+        const deluxeRoom = {
             name: 'Deluxe-Room',
             rate: 790,
             discount: 10,
-        })
-        const deluxeBooking = new Booking({
-            name: 'David PR',
-            email: 'david.pr.developer@gmail.com',
-            checkIn: '2023-10-10',
-            checkOut: '2023-10-11',
-            discount: 5,
-            room: deluxeRoom,
-        })
+        }
+        const deluxeBooking = new Booking(
+            'David PR',
+            'david.pr.developer@gmail.com',
+            '2023-10-10',
+            '2023-10-11',
+            5,
+            deluxeRoom
+        )
         expect(deluxeBooking.getFee()).toBe(671.5)
     })
-    test('getFee: returns `No discount available to be applied` if there is not discounts to be applied', () => {
-        const deluxeRoom = new Room({
+
+    test('getFee: returns `No discount available to be applied` if there are no discounts to be applied', () => {
+        const deluxeRoom = {
             name: 'Deluxe-Room',
             rate: 790,
             discount: 0,
-        })
-        const deluxeBooking = new Booking({
-            name: 'David PR',
-            email: 'david.pr.developer@gmail.com',
-            checkIn: '2023-10-10',
-            checkOut: '2023-10-11',
-            discount: 0,
-            room: deluxeRoom,
-        })
+        }
+        const deluxeBooking = new Booking(
+            'David PR',
+            'david.pr.developer@gmail.com',
+            '2023-10-10',
+            '2023-10-11',
+            0,
+            deluxeRoom
+        )
         expect(deluxeBooking.getFee()).toBe('No discount available to be applied')
     })
-
 })
