@@ -8,13 +8,6 @@ interface InterfaceRoom {
 	bookings: Bookings[]
 	rate: number
 	discount: number
-	// isOcuppied: () => boolean
-	// occupancyPercentage: (startingDate: string, endingDate: string) => number
-	// totalOccupancyPercentage: (
-	// 	rooms: Room[],
-	// 	startDate: string,
-	// 	endDate: string
-	// ) => number
 }
 
 class Room implements InterfaceRoom {
@@ -38,9 +31,13 @@ class Room implements InterfaceRoom {
 	isOccupied = (date: string): boolean => {
 		const myDate = new Date(date).getTime()
 		if (!isNaN(myDate)) {
-			for (let i = 0; i < this.bookings.length; i++) {
-				const startDate = new Date(this.bookings[i].checkIn).getTime()
-				const endDate = new Date(this.bookings[i].checkOut).getTime()
+			for (let i: number = 0; i < this.bookings.length; i++) {
+				const startDate: number = new Date(
+					this.bookings[i].checkIn
+				).getTime()
+				const endDate: number = new Date(
+					this.bookings[i].checkOut
+				).getTime()
 				if (myDate >= startDate && myDate <= endDate) {
 					return true
 				}
@@ -148,13 +145,19 @@ class Room implements InterfaceRoom {
 	}
 }
 
+type RoomType = {
+	name: string
+	rate: number
+	discount: number
+}
+
 class Booking {
 	name: string
 	email: string
 	checkIn: string
 	checkOut: string
 	discount: number
-	room: { name: string; rate: number; discount: number }[]
+	room: RoomType
 
 	constructor(
 		name: string,
@@ -162,7 +165,7 @@ class Booking {
 		checkIn: string,
 		checkOut: string,
 		discount: number,
-		room: { name: string; rate: number; discount: number }[]
+		room: RoomType
 	) {
 		this.name = name
 		this.email = email
@@ -172,51 +175,23 @@ class Booking {
 		this.room = room
 	}
 	getFee = () => {
-		//     const currentPrice = this.name.room[0].rate;
-		//     const currentRoomDiscount = this.name.room.name.discount;
-		//     const currentBookingDiscount = this.name.discount;
-		//     let priceWithDiscount = 0;
-		//     if (currentRoomDiscount !== 0 && currentBookingDiscount !== 0) {
-		//         return (priceWithDiscount =
-		//             currentPrice -
-		//             (currentPrice *
-		//                 (currentBookingDiscount + currentRoomDiscount)) /
-		//             100);
-		//     } else if (currentRoomDiscount !== 0) {
-		//         return (priceWithDiscount =
-		//             currentPrice - (currentPrice * currentRoomDiscount) / 100);
-		//     } else if (currentBookingDiscount !== 0) {
-		//         return (priceWithDiscount =
-		//             currentPrice - (currentPrice * currentBookingDiscount) / 100);
-		//     } else return 'No discount available to be applied';
-		// };
-
-		if (this.room.length === 0) {
-			return 'No room available for booking'
-		}
-
-		let totalFee = 0
-
-		for (const room of this.room) {
-			const currentPrice = room.rate
-			const currentRoomDiscount = room.discount
-			const currentBookingDiscount = this.discount
-
-			let priceWithDiscount = currentPrice
-
-			if (currentRoomDiscount !== 0) {
-				priceWithDiscount -= (currentPrice * currentRoomDiscount) / 100
-			}
-
-			if (currentBookingDiscount !== 0) {
-				priceWithDiscount -=
-					(currentPrice * currentBookingDiscount) / 100
-			}
-
-			totalFee += priceWithDiscount
-		}
-
-		return totalFee
+		const currentPrice: number = this.room.rate
+		const currentRoomDiscount: number = this.room.discount
+		const currentBookingDiscount: number = this.discount
+		let priceWithDiscount: number = 0
+		if (currentRoomDiscount !== 0 && currentBookingDiscount !== 0) {
+			return (priceWithDiscount =
+				currentPrice -
+				(currentPrice *
+					(currentBookingDiscount + currentRoomDiscount)) /
+					100)
+		} else if (currentRoomDiscount !== 0) {
+			return (priceWithDiscount =
+				currentPrice - (currentPrice * currentRoomDiscount) / 100)
+		} else if (currentBookingDiscount !== 0) {
+			return (priceWithDiscount =
+				currentPrice - (currentPrice * currentBookingDiscount) / 100)
+		} else return 'No discount available to be applied'
 	}
 }
 
