@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Booking = exports.Room = void 0;
 class Room {
     constructor(name, bookings, rate, discount) {
         this.isOccupied = (date) => {
@@ -41,6 +43,7 @@ class Room {
         this.discount = discount;
     }
 }
+exports.Room = Room;
 Room.totalOccupancyPercentage = (rooms, startDate, endDate) => {
     if (!Array.isArray(rooms) ||
         rooms.every((room) => !(room instanceof Room))) {
@@ -111,10 +114,7 @@ class Booking {
         this.room = room;
     }
 }
-module.exports = {
-    Room,
-    Booking,
-};
+exports.Booking = Booking;
 function checkRange(startDate, endDate) {
     const startdate = new Date(startDate);
     const enddate = new Date(endDate);
