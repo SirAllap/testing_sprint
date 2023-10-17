@@ -5,7 +5,7 @@ interface InterfaceRoom {
 	discount: number
 }
 
-class Room implements InterfaceRoom {
+export class Room implements InterfaceRoom {
 	name: string
 	bookings: Booking[]
 	rate: number
@@ -146,7 +146,16 @@ type RoomType = {
 	discount: number
 }
 
-class Booking {
+interface InterfaceBooking {
+	name: string
+	email: string
+	checkIn: string | Date
+	checkOut: string | Date
+	discount: number
+	room: RoomType
+}
+
+export class Booking implements InterfaceBooking {
 	name: string
 	email: string
 	checkIn: string
@@ -186,11 +195,6 @@ class Booking {
 			return currentPrice - (currentPrice * currentBookingDiscount) / 100
 		} else return 'No discount available to be applied'
 	}
-}
-
-module.exports = {
-	Room,
-	Booking,
 }
 
 function checkRange(startDate: string, endDate: string): string[] {
